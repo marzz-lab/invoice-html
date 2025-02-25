@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Invoice Deposit QRIS</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                font-family: "Poppins", sans-serif;
+                color: white;
+            }
+            .invoice {
+                background: rgba(255, 255, 255, 0.15);
+                padding: 25px;
+                border-radius: 20px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+                width: 90%;
+                max-width: 400px;
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .store-logo {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 15px;
+                border: 4px solid white;
+            }
+            .qris-img {
+                width: 80%;
+                max-width: 250px;
+                background: white;
+                padding: 12px;
+                border-radius: 15px;
+                margin: 20px 0;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+            .nominal {
+                font-size: 28px;
+                font-weight: bold;
+                margin: 15px 0;
+            }
+            button {
+                background: linear-gradient(45deg, #ff416c, #ff4b2b);
+                border: none;
+                padding: 14px 30px;
+                font-size: 18px;
+                font-weight: bold;
+                color: white;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                box-shadow: 0 5px 10px rgba(255, 75, 43, 0.4);
+            }
+            button:hover {
+                background: linear-gradient(45deg, #ff4b2b, #ff416c);
+                transform: scale(1.05);
+                box-shadow: 0 7px 15px rgba(255, 75, 43, 0.5);
+            }
+            @media (max-width: 600px) {
+                .invoice {
+                    width: 95%;
+                }
+                .qris-img {
+                    width: 90%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="invoice">
+            <img src="logo.jpg" alt="Store Logo" class="store-logo" />
+            <h2>Nama Store</h2>
+            <p>Silakan lakukan pembayaran menggunakan QRIS di bawah ini:</p>
+            <img id="qris" src="" alt="QRIS Code" class="qris-img" />
+            <p class="nominal">Nominal: Rp <span id="nominal"></span></p>
+            <button onclick="copyToClipboard()">Salin QRIS</button>
+        </div>
+        <script>
+            function getQueryParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+            document.getElementById("qris").src =
+                getQueryParam("qris") || "p.jpg";
+            document.getElementById("nominal").innerText =
+                getQueryParam("nominal") || "100.000";
+
+            function copyToClipboard() {
+                const qrisUrl = document.getElementById("qris").src;
+                navigator.clipboard.writeText(qrisUrl).then(() => {
+                    alert("QRIS telah disalin ke clipboard!");
+                });
+            }
+        </script>
+    </body>
+</html>
